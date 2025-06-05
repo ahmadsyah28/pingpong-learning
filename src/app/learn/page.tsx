@@ -262,7 +262,7 @@ export default function LessonsPage() {
     <div className="min-h-screen bg-gradient-to-br from-ping-pong-50 to-table-green-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/">
               <motion.button
@@ -270,10 +270,13 @@ export default function LessonsPage() {
                 className="flex items-center gap-2 text-ping-pong-600 hover:text-ping-pong-700 font-medium"
               >
                 <Home className="w-5 h-5" />
-                Kembali ke Beranda
+                <span className="hidden sm:inline">Kembali ke Beranda</span>
               </motion.button>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-800">Materi Tenis Meja</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 text-center flex-1">
+              Materi Tenis Meja
+            </h1>
+            <div className="w-[120px] hidden sm:block"></div>
           </div>
         </div>
       </div>
