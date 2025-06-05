@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Play, BookOpen, Brain, ChevronRight } from "lucide-react";
+import { Play, BookOpen, Brain, ChevronRight, Menu, X, Home, Users } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
@@ -15,45 +16,97 @@ export default function HomePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-ping-pong-400 to-table-green-500 flex items-center justify-center">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="text-6xl mb-4"
-          >
+      <div className="min-h-screen bg-gradient-to-br from-orange-400 to-green-500 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4 animate-spin">
             🏓
-          </motion.div>
+          </div>
           <p className="text-white text-xl font-medium">Memuat halaman...</p>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Navigation Bar */}
+      <nav className="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo & Brand */}
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl">🏓</span>
+              <span className="font-bold text-sm sm:text-lg text-gray-800">
+                <span className="hidden sm:inline">Tenis Meja Learning</span>
+                <span className="sm:hidden">TM Learning</span>
+              </span>
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link
+                href="/"
+                className="text-orange-600 font-medium px-3 py-2 rounded-lg bg-orange-100 flex items-center space-x-1"
+              >
+                <Home className="w-4 h-4" />
+                <span>Beranda</span>
+              </Link>
+              <Link
+                href="/students"
+                className="text-gray-600 hover:text-orange-600 transition-colors px-3 py-2 rounded-lg flex items-center space-x-1"
+              >
+                <Users className="w-4 h-4" />
+                <span>Profil Mahasiswa</span>
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-lg text-gray-600 hover:text-orange-600 hover:bg-gray-100 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm">
+              <div className="space-y-2">
+                <Link
+                  href="/"
+                  className="flex items-center space-x-3 px-4 py-3 text-orange-600 bg-orange-100 font-medium rounded-lg mx-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Home className="w-5 h-5" />
+                  <span>Beranda</span>
+                </Link>
+                <Link
+                  href="/students"
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-orange-600 hover:bg-orange-50 transition-colors rounded-lg mx-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Users className="w-5 h-5" />
+                  <span className="font-medium">Profil Mahasiswa</span>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <header className="relative overflow-hidden bg-gradient-to-r from-ping-pong-600 to-table-green-600 text-white">
+      <header className="relative overflow-hidden bg-gradient-to-r from-orange-600 to-green-600 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative container mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center"
-        >
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="text-6xl sm:text-8xl mb-6"
-          >
+        <div className="relative container mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
+          <div className="text-6xl sm:text-8xl mb-6 animate-bounce">
             🏓
-          </motion.div>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold font-display mb-6 leading-tight">
+          </div>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
             Belajar Tenis Meja
             <br />
             <span className="text-yellow-300">Lebih Mudah & Terarah</span>
@@ -65,15 +118,11 @@ export default function HomePage() {
             permainan tingkat lanjut <span className="text-yellow-300">🎯</span>
           </p>
           <Link href="/learn">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-yellow-400 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg font-semibold hover:bg-yellow-300 transition-colors shadow-lg"
-            >
+            <button className="bg-yellow-400 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg font-semibold hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
               Mulai Belajar Sekarang
-            </motion.button>
+            </button>
           </Link>
-        </motion.div>
+        </div>
       </header>
 
       {/* Features Section */}
@@ -96,7 +145,7 @@ export default function HomePage() {
                 title: "Latihan Soal Pilihan Ganda",
                 description:
                   "Uji pemahaman Anda dengan 20 soal interaktif yang dirancang khusus untuk semua level pembelajaran",
-                color: "from-ping-pong-500 to-ping-pong-600",
+                color: "from-orange-500 to-orange-600",
                 link: "/quiz",
               },
               {
@@ -112,7 +161,7 @@ export default function HomePage() {
                 title: "Materi Terstruktur",
                 description:
                   "11 materi pembelajaran lengkap dari dasar hingga advanced dengan penjelasan yang mudah dipahami",
-                color: "from-table-green-500 to-table-green-600",
+                color: "from-green-500 to-green-600",
                 link: "/learn",
               },
             ].map((feature, index) => (
@@ -150,15 +199,9 @@ export default function HomePage() {
       {/* Sources & References Section */}
       <section className="py-16 sm:py-20 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-bold text-center mb-12 text-white"
-          >
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-white">
             Sumber & Referensi Terpercaya
-          </motion.h2>
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
@@ -167,36 +210,28 @@ export default function HomePage() {
                 description:
                   "International Table Tennis Federation - Aturan resmi dan standar internasional",
                 icon: "🏆",
-                link: "https://www.ittf.com",
               },
               {
                 title: "PTMSI",
                 description:
                   "Persatuan Tenis Meja Seluruh Indonesia - Standar nasional dan peraturan lokal",
                 icon: "🇮🇩",
-                link: "#",
               },
               {
                 title: "YouTube Experts",
                 description:
                   "Channel resmi pelatih tenis meja profesional dan atlet berpengalaman",
                 icon: "🎥",
-                link: "#",
               },
               {
                 title: "Literatur Olahraga",
                 description:
                   "Buku dan jurnal ilmiah tentang teknik dan strategi tenis meja",
                 icon: "📚",
-                link: "#",
               },
             ].map((source, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
                 className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300"
               >
                 <div className="text-4xl mb-4 text-center">{source.icon}</div>
@@ -206,28 +241,22 @@ export default function HomePage() {
                 <p className="text-gray-300 text-sm leading-relaxed text-center">
                   {source.description}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-12 text-center"
-          >
+          <div className="mt-12 text-center">
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
               Semua materi dalam platform ini telah dikurasi berdasarkan standar
               internasional ITTF dan disesuaikan dengan kurikulum olahraga
               Indonesia untuk memastikan akurasi dan relevansi.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Learning Path Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-r from-ping-pong-500 to-table-green-500 text-white">
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-orange-500 to-green-500 text-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
             Jalur Pembelajaran Terstruktur
@@ -269,28 +298,27 @@ export default function HomePage() {
             Platform pembelajaran tenis meja terlengkap di Indonesia
           </p>
           <div className="flex justify-center space-x-4 sm:space-x-6 text-sm sm:text-base">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Tentang
-            </a>
-            <a
-              href="#"
+              Beranda
+            </Link>
+            <Link
+              href="/students"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Kontak
-            </a>
-            <a
+              Profil Mahasiswa
+            </Link>
+            <Link
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
               FAQ
-            </a>
+            </Link>
           </div>
           <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800 text-gray-500 text-xs sm:text-sm">
-            © 2025 Pembelajaran Tenis Meja . Dibuat dengan ❤️ untuk para pecinta
-            tenis meja.
+            <p className="mb-2">© 2025 Pembelajaran Tenis Meja. Dibuat dengan ❤️ untuk para pecinta tenis meja.</p>
           </div>
         </div>
       </footer>
