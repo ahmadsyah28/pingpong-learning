@@ -184,6 +184,10 @@ export default function StudentsPage() {
               <div className="text-3xl font-bold text-yellow-300 mb-2">20</div>
               <p className="text-gray-300">Soal Evaluasi</p>
             </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="text-3xl font-bold text-yellow-300 mb-2">2025</div>
+              <p className="text-gray-300">Tahun Pembuatan</p>
+            </div>
           </div>
           
           <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-6">
